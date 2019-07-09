@@ -25,11 +25,31 @@
 
     <section>
         <div class="container">
-            <!-- MAP -->
+            <!-- VENUES MAP -->
             <div class="row">
                 <div class="col">
                     <h3>VENUES MAP</h3>
                     <div id="map"></div>
+                </div>
+            </div>
+
+            <!-- STATES MAP -->
+            <div class="row">
+                <div class="col">
+                    <h3>STATES MAP</h3>
+                    <div id="data-box" class="nicebox">
+                        <label id="data-label" for="data-value"></label>
+                        <span id="data-value"></span>
+                    </div>
+                    <div id="state_map"></div>
+                </div>
+            </div>
+
+            <!-- PLAYER BY STATE PIE CHART -->
+            <div class="row">
+                <div class="col">
+                    <h3>PLAYERS BY STATE</h3>
+                    <div id="player-state"></div>
                 </div>
             </div>
 
@@ -51,11 +71,9 @@
         </div>
 
     </section>
-    <script>
-    </script>
     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJt17tbbPCWd54vyHwh3dYSI_BvNB5V4M&callback=initMap">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJt17tbbPCWd54vyHwh3dYSI_BvNB5V4M&libraries=visualization&callback=initVenuesMap">
     </script>
 </body>
 
