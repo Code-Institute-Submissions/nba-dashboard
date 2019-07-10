@@ -7,6 +7,8 @@ function makeGraphs(error, teamRosters) {
 
     initMap();
     player_by_state(ndx);
+    player_by_country(ndx);
+    player_other_countries(ndx);
     player_position(ndx);
     player_by_age(ndx);
     player_by_height(ndx);
@@ -140,6 +142,47 @@ function player_by_state(ndx) {
         .group(group);
 }
 
+// ---------------------------------------------------------- PLAYER BY COUNTRY PIE CHART -------------------------------------
+
+function player_by_country(ndx) {
+    var country_dim = ndx.dimension(dc.pluck("players__player__birth_country"));
+    var country_group = country_dim.group();
+
+    dc.pieChart("#player-country")
+        .height(300)
+        .width(300)
+        .radius(200)
+        .slicesCap(1)
+        .transitionDuration(1500)
+        .dimension(country_dim)
+        .group(country_group);
+}
+
+// ------------------------------------------------------- PLAYERS FROM OTHER COUNTRIES PIE CHART ------------------------------
+
+function player_other_countries(ndx) {
+    var otherCountries_dim = ndx.dimension(dc.pluck("players__player__birth_country"));
+    var otherCountries_group = otherCountries_dim.group();
+
+
+    dc.pieChart("#player-other-countries")
+        .height(700)
+        .width(700)
+        .radius(200)
+        .transitionDuration(1500)
+        .externalLabels(50)
+        .drawPaths(true)
+        .renderTitle(true)
+        .minAngleForLabel(0)
+        .dimension(otherCountries_dim)
+        .group(otherCountries_group)
+        .data(function(group) {
+            return group.all()
+                .filter(function(d) { return d.key !== "USA"; });
+        });
+
+}
+
 // ----------------------------------------------------------- PLAYER POSITION BAR CHART ------------------------------------
 
 function player_position(ndx) {
@@ -167,6 +210,8 @@ function player_position(ndx) {
         .xAxisLabel("Position")
         .elasticY(true)
         .yAxis().ticks(5);
+
+
 }
 
 // -------------------------------------------------- PLAYERS BY AGE ROW CHART ------------------------------------------
