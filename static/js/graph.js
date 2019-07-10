@@ -10,8 +10,8 @@ function makeGraphs(error, teamRosters) {
     player_by_country(ndx);
     player_other_countries(ndx);
     player_position(ndx);
-    player_by_age(ndx);
-    player_by_height(ndx);
+    // player_by_age(ndx);
+    player_by_draft_year(ndx);
 
     dc.renderAll();
 }
@@ -30,7 +30,7 @@ function initVenuesMap() {
     });
 
     // Create an array of alphabetical characters used to label the markers.
-    var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var labels = '';
 
     // Add some markers to the map.
     // Note: The code uses the JavaScript Array.prototype.map() method to
@@ -40,6 +40,7 @@ function initVenuesMap() {
         return new google.maps.Marker({
             position: location,
             label: labels[i % labels.length],
+            icon: "https://maps.google.com/mapfiles/kml/paddle/purple-stars.png",
         });
     });
 
@@ -147,12 +148,16 @@ function player_by_state(ndx) {
 function player_by_country(ndx) {
     var country_dim = ndx.dimension(dc.pluck("players__player__birth_country"));
     var country_group = country_dim.group();
+    
+    var country_colorScale = d3.scale.ordinal().domain(["USA", "Others"])
+                                        .range(["red", "blue"]);
 
     dc.pieChart("#player-country")
         .height(300)
         .width(300)
         .radius(200)
         .slicesCap(1)
+        .colors(country_colorScale)
         .transitionDuration(1500)
         .dimension(country_dim)
         .group(country_group);
@@ -189,6 +194,9 @@ function player_position(ndx) {
     var position_dim = ndx.dimension(dc.pluck("players__player__primary_position"));
     var position_group = position_dim.group();
     var position_filtered_group = getTops(position_group);
+    
+    var position_colorScale = d3.scale.ordinal().domain(["C", "PF", "SF", "SG", "PG"])
+                                                .range(["red", "blue", "yellow", "purple", "green"]);
 
     function getTops(position_group) {
         return {
@@ -205,6 +213,7 @@ function player_position(ndx) {
         .dimension(position_dim)
         .group(position_filtered_group)
         .transitionDuration(500)
+        .colors(position_colorScale)
         .x(d3.scale.ordinal())
         .xUnits(dc.units.ordinal)
         .xAxisLabel("Position")
@@ -234,21 +243,28 @@ function player_by_age(ndx) {
         .yAxis().ticks(5);
 }
 
-// ----------------------------------------------------------- PLAYER BY HEIGHT --------------------------------------------
+// ------------------------------------------------- PLAYERS BY DRAFT YEAR SCATTER PLOT ------------------------
 
-function player_by_height(ndx) {
-    var height_dim = ndx.dimension(dc.pluck("players__player__height"));
-    var height_group = height_dim.group();
+function player_by_draft_year(ndx) {
+    var draftYear_dim = ndx.dimension(dc.pluck("players__player__draft__year"));
+    var draftYear_group = draftYear_dim.group();
 
-    dc.scatterPlot("#player-by-height")
+    var min_year = draftYear_dim.bottom;
+    var max_year = draftYear_dim.top;
+
+    dc.scatterPlot("#player-by-draft-year")
         .width(800)
         .height(500)
-        .transitionDuration(500)
-        .x(d3.scale.linear())
+        .x(d3.scale.linear().domain([min_year, max_year]))
         .brushOn(false)
-        .symbolSize(7)
+        .symbolSize(8)
         .clipPadding(10)
-        .yAxisLabel("Height")
-        .dimension(height_dim)
-        .group(height_group);
+        .xAxisLabel("Year")
+        .dimension(draftYear_dim)
+        .group(draftYear_group)
+        .data(function(group) {
+            return group.all()
+                .filter(function(d) { return d.key !== "null"; });
+        });
+
 }
