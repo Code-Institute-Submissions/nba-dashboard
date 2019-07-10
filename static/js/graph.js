@@ -9,6 +9,7 @@ function makeGraphs(error, teamRosters) {
     player_by_state(ndx);
     player_position(ndx);
     player_by_age(ndx);
+    player_by_height(ndx);
 
     dc.renderAll();
 }
@@ -36,7 +37,7 @@ function initVenuesMap() {
     var markers = locations.map(function(location, i) {
         return new google.maps.Marker({
             position: location,
-            label: labels[i % labels.length]
+            label: labels[i % labels.length],
         });
     });
 
@@ -144,13 +145,22 @@ function player_by_state(ndx) {
 function player_position(ndx) {
     var position_dim = ndx.dimension(dc.pluck("players__player__primary_position"));
     var position_group = position_dim.group();
+    var position_filtered_group = getTops(position_group);
+
+    function getTops(position_group) {
+        return {
+            all: function() {
+                return position_group.top(5);
+            }
+        };
+    }
 
     dc.barChart("#player-position")
         .width(400)
         .height(400)
         .margins({ top: 10, right: 50, bottom: 30, left: 50 })
         .dimension(position_dim)
-        .group(position_group)
+        .group(position_filtered_group)
         .transitionDuration(500)
         .x(d3.scale.ordinal())
         .xUnits(dc.units.ordinal)
@@ -177,4 +187,23 @@ function player_by_age(ndx) {
         .xAxisLabel("Age")
         .elasticY(true)
         .yAxis().ticks(5);
+}
+
+// ----------------------------------------------------------- PLAYER BY HEIGHT --------------------------------------------
+
+function player_by_height(ndx) {
+    var height_dim = ndx.dimension(dc.pluck("players__player__height"));
+    var height_group = height_dim.group();
+
+    dc.scatterPlot("#player-by-height")
+        .width(800)
+        .height(500)
+        .transitionDuration(500)
+        .x(d3.scale.linear())
+        .brushOn(false)
+        .symbolSize(7)
+        .clipPadding(10)
+        .yAxisLabel("Height")
+        .dimension(height_dim)
+        .group(height_group);
 }
