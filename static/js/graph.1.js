@@ -35,13 +35,6 @@ function initMap() {
 
     for (var i = 0; i < locations.length; i++) {
 
-        var lat = locations[i][0]
-        var lng = locations[i][1]
-
-        markers.addListener('click', function() {
-            infowindow.open(map, markers);
-        });
-
 
         var contentString = '<div id="content">' +
             '<div id="siteNotice">' +

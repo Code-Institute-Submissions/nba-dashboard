@@ -2,19 +2,7 @@
     min-height: 360px;
 }
 
-#state_map {
+#states-map {
     min-height: 360px;
 }
 
-#data-box {
-    top: 10px;
-    left: 500px;
-    height: 45px;
-    line-height: 45px;
-    display: none;
-}
-
-#info-box {
-    width: 150px;
-    height: 50px;
-}
