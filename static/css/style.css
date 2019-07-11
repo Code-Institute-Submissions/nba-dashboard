@@ -13,3 +13,8 @@
     line-height: 45px;
     display: none;
 }
+
+#info-box {
+    width: 150px;
+    height: 50px;
+}
