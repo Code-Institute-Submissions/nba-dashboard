@@ -27,89 +27,162 @@ function makeGraphs(error, teamRosters) {
 
 function initMap() {
 
+
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 4,
         center: { lat: 38, lng: -95 },
+
     });
 
+    setMarkers(map, locations);
+}
 
-    for (var i = 0; i < locations.length; i++) {
+function setMarkers(map, locations) {
 
+    var marker, i;
 
-        var contentString = '<div id="content">' +
-            '<div id="siteNotice">' +
-            '</div>' +
-            '<div id="teamName" class="firstHeading">Boston Celtics</div>' +
-            '<div id="teamYear" class="firstHeading">1946</div>' +
-            '<div id="venueName" class="firstHeading">TD Garden</div>' +
-            '<div id="venueCapacity" class="firstHeading">TD Garden</div>' +
-            '<div id="bodyContent">' +
-            '</div>';
+    for (i = 0; i < locations.length; i++) {
 
-        var infowindow = new google.maps.InfoWindow({
-            content: contentString,
-            maxWidth: 200
-        });
+        var lat = locations[i][0];
+        var long = locations[i][1];
+        var team = locations[i][2];
+        var yearFounded = locations[i][3];
+        var venueName = locations[i][4];
+        var venueCapacity = locations[i][5];
 
-        // Create labels for the markers.
-        // var labels = '';
+        var latlngset = new google.maps.LatLng(lat, long);
 
-        var markers = locations.map(function(location, i) {
+        var markerTitle = team + " @ " + venueName;
+
+        var marker = locations.map(function(location, i) {
             return new google.maps.Marker({
                 // var marker = new google.maps.Marker({
                 //     position: { lat: 42.366230, lng: -71.062146 },
                 // label: labels[i % labels.length],
-                position: location,
+                position: latlngset,
                 icon: "https://maps.google.com/mapfiles/kml/paddle/purple-stars.png",
+                title: markerTitle,
                 map: map,
             });
         });
+
+        // Add a marker clusterer to manage the markers.
+        var markerCluster = new MarkerClusterer(map, marker, { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
+
+        // map.setCenter(marker.getPosition());
+
+        var contentString = "Team: " + team + "Venue: " + venueName;
+
+        var infowindow = new google.maps.InfoWindow()
+
+        google.maps.event.addListener(marker, 'click', (function(markers, contentString, infowindow) {
+                return function() {
+                    infowindow.setContent(contentString);
+                    infowindow.open(map, marker);
+                };
+            })
+            (marker, contentString, infowindow)
+        );
+
     }
 
-
-    // while (i < locations.length) {
-    //   new 
-    //         i++;
-    //     });
-    // }
-
-    // Add a marker clusterer to manage the markers.
-    var markerCluster = new MarkerClusterer(map, markers, { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
 }
 
-
 var locations = [
-    { lat: 33.757307, lng: -84.396324 }, // State Farm Arena, Atlanta, Georgia
-    { lat: 42.366230, lng: -71.062146 }, // TD Garden, Boston, Massachussetts
-    { lat: 40.682523, lng: -73.976094 }, // Barclays Center, Brooklyn, New York
-    { lat: 35.225188, lng: -80.839306 }, // Spectrum Center, Charlotte, North Carolina
-    { lat: 41.880694, lng: -87.674173 }, // United Center, Chicago, Illinois
-    { lat: 41.496482, lng: -81.688214 }, // Rocket Mortgage FieldHouse, Cleveland, Ohio
-    { lat: 32.790727, lng: -96.811091 }, // American Airlines Center, Dallas, Texas
-    { lat: 39.748663, lng: -105.007710 }, // Pepsi Center, Denver, Colorado
-    { lat: 42.341011, lng: -83.054971 }, // Little Caesars Arena, Detroit, Michigan
-    { lat: 37.750305, lng: -122.202961 }, // Oracle Arena, Oakland, California
-    { lat: 29.750764, lng: -95.362101 }, // Toyota Center, Houston, Texas
-    { lat: 39.763890, lng: -86.155460 }, // Bankers Life Fieldhouse, Indianapolis, Indiana
-    { lat: 34.043027, lng: -118.267254 }, // Staples Center, Los Angeles, California
-    { lat: 35.138256, lng: -90.050503 }, // FedEx Forum, Memphis, Tennessee
-    { lat: 25.781424, lng: -80.186969 }, // American Airlines Arena, Miami, Florida
-    { lat: 43.045052, lng: -87.916793 }, // Fiserv Forum, Milwaukee, Wisconsin
-    { lat: 44.979318, lng: -93.275697 }, // Target Center, Minneapolis, Minnesota
-    { lat: 29.949038, lng: -90.082055 }, // Smoothie King Center, New Orleans, Louisiana
-    { lat: 40.750517, lng: -73.993439 }, // Madison Square Garden, New York City, New York
-    { lat: 35.463444, lng: -97.515096 }, // Chesapeake Energy Arena, Oklahoma City, Oklahoma
-    { lat: 28.539229, lng: -81.383856 }, // Amway Center, Orlando, Florida
-    { lat: 39.901311, lng: -75.171957 }, // Wells Fargo Center, Philadelphia, Pennsylvania
-    { lat: 33.445742, lng: -112.071205 }, // Talking Stick Resort Arena, Phoenix, Arizona
-    { lat: 45.531929, lng: -122.666866 }, // Moda Center, Portland, Oregon
-    { lat: 29.427153, lng: -98.437490 }, // AT&T Center, San Antonio, Texas
-    { lat: 38.580213, lng: -121.499660 }, // Golden 1 Center, Sacramento, California
-    { lat: 43.643505, lng: -79.379106 }, // Scottiabank Arena, Toronto, Ontario
-    { lat: 40.768298, lng: -111.901088 }, // Vivint Smart Home Arena, Salt Lake City, Utah
-    { lat: 38.898114, lng: -77.020992 } // Capital One Arena, Washington, District of Columbia
+
+    //  lat,         long,      team,        year    venue            capacity       
+    [33.757307, -84.396324, "Atlanta Hawks", 1946, "State Farn Arena", 18118], // Atlanta, Georgia
+    [42.366230, -71.062146, "Boston Celtics", 1946, "TD Garden", 18624], // Boston, Massachussetts
+    [40.682523, -73.976094, "Brooklyn Nets", 1967, "Barclays Center", 17732], // Brooklyn, New York
+    [35.225188, -80.839306, "Charlotte Hornets", 1988, "Spectrum Center", 19077], // Charlotte, North Carolina
+    [41.880694, -87.674173, "Chicago Bulls", 1966, "United Center", 20917], // Chicago, Illinois
+    [41.496482, -81.688214, "Cleveland Cavaliers", 1970, "Rocket Mortgage FieldHouse", 20562], //  Cleveland, Ohio
+    [32.790727, -96.811091, "Dallas Mavericks", 1980, "American Airlines Center", 19200], // Dallas, Texas
+    [39.748663, -105.007710, "Denver Nuggets", 1967, "Pepsi Center", 19520], // Denver, Colorado
+    [42.341011, -83.054971, "Detroit Pistons", 1941, "Little Caesars Arena", 20491], // Detroit, Michigan
+    [37.750305, -122.202961, "Golden State Warriors", 1946, "Oracle Arena", 19596], // Oakland, California
+    [29.750764, -95.362101, "Houston Rockets", 1967, "Toyota Center", 18500], // Houston, Texas
+    [39.763890, -86.155460, "Indiana Pacers", 1967, "Bankers Life Fieldhouse", 20000], // Indianapolis, Indiana
+    [34.043027, -118.267254, "Los Angeles Clippers", 1970, "Staples Center", 18997], // Los Angeles, California
+    [34.043497, -118.267447, "Los Angeles Lakers", 1947, "Staples Center", 18997], // Los Angeles, California
+    [35.138256, -90.050503, "Memphis Grizzlies", 1995, "FedEx Forum", 18119], // Memphis, Tennessee
+    [25.781424, -80.186969, "Miami Heat", 1988, "American Airlines Arena", 19600], //  Miami, Florida
+    [43.045052, -87.916793, "Milwaukee Bucks", 1968, "Fiserv Forum", 17500], // Milwaukee, Wisconsin
+    [44.979318, -93.275697, "Minnesota Timberwolves", 1989, "Target Center", 19356], // Minneapolis, Minnesota
+    [29.949038, -90.082055, "New Orleans Pelicans", 1988, "Smoothie King Center", 16867], // New Orleans, Louisiana
+    [40.750517, -73.993439, "New York Knicks", 1946, "Madison Square Garden", 19812], // New York City, New York
+    [35.463444, -97.515096, "Oklahoma City Thunder", 1967, "Chesapeake Energy Arena", 18203], // Oklahoma City, Oklahoma
+    [28.539229, -81.383856, "Orlando Magic", 1989, "Amway Center", 18846], // Orlando, Florida
+    [39.901311, -75.171957, "Philadelphia 76ers", 1946, "Wells Fargo Center", 20478], // Philadelphia, Pennsylvania
+    [33.445742, -112.07120, "Phoenix Suns", 1968, "Talking Stick Resort Arena", 18422], // Phoenix, Arizona
+    [45.531929, -122.666866, "Portland Trailblazers", 1970, "Moda Center", 19393], // Portland, Oregon
+    [29.427153, -98.437490, "San Antonio Spurs", 1967, "AT&T Center", 18581], // San Antonio, Texas
+    [38.580213, -121.49966, "Sacramento Kings", 1923, "Golden 1 Center", 17608], // Sacramento, California
+    [43.643505, -79.379106, "Toronto Raptors", 1995, "Scottiabank Arena", 19800], // Toronto, Ontario
+    [40.768298, -111.901088, "Utah Jazz", 1974, "Vivint Smart Home Arena", 18306], // Salt Lake City, Utah
+    [38.898114, -77.020992, "Washington Wizards", 1961, "Capital One Arena", 20356], // Washington, District of Columbia
 
 ];
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//     for (var i = 0; i < locations.length; i++) {
+
+//         var lat = locations[i][0]
+//         var lng = locations[i][1]
+
+//         google.maps.event.addListener(marker, 'click', (function(marker, contentString, infowindow) {
+//             return function() {
+//                 infowindow.setContent(contentString);
+//                 infowindow.open(map, marker);
+//             };
+//         })(marker, contentString, infowindow));
+
+
+//         var contentString = '<div id="content">' +
+//             '<div id="siteNotice">' +
+//             '</div>' +
+//             '<div id="teamName" class="firstHeading">Boston Celtics</div>' +
+//             '<div id="teamYear" class="firstHeading">1946</div>' +
+//             '<div id="venueName" class="firstHeading">TD Garden</div>' +
+//             '<div id="venueCapacity" class="firstHeading">TD Garden</div>' +
+//             '<div id="bodyContent">' +
+//             '</div>';
+
+//         var infowindow = new google.maps.InfoWindow({
+//             content: contentString,
+//             maxWidth: 200
+//         });
+
+//         // Create labels for the markers.
+//         // var labels = '';
+
+//         var marker = locations.map(function(location, i) {
+//             return new google.maps.Marker({
+//                 // var marker = new google.maps.Marker({
+//                 //     position: { lat: 42.366230, lng: -71.062146 },
+//                 // label: labels[i % labels.length],
+//                 position: location,
+//                 icon: "https://maps.google.com/mapfiles/kml/paddle/purple-stars.png",
+//                 map: map,
+//             });
+//         });
+//     }
+
+
+
+
+
+
+
 
 
 
