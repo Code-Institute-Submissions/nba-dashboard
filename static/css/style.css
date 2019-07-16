@@ -2,5 +2,10 @@
     min-height: 360px;
 }
 
+#window-logo {
+    max-width: 130px;
+    padding-bottom: 10px;
+}
+
 
 
