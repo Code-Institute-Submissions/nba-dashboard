@@ -17,7 +17,7 @@ function makeGraphs(error, teamRosters) {
     player_other_countries(ndx);
     player_position(ndx);
     player_by_age(ndx);
-    // player_by_draft_year(ndx);
+    player_by_draft_year(ndx);
     // player_average_weight(ndx, "#average-weight");
 
     dc.renderAll();
@@ -119,7 +119,7 @@ function setMarkers(map, locations) {
             };
         })(marker, content, infowindow));
     }
-    
+
 
 }
 
@@ -218,6 +218,7 @@ function player_position(ndx) {
         .x(d3.scale.ordinal())
         .xUnits(dc.units.ordinal)
         .xAxisLabel("Position")
+        .yAxisLabel("Number of players")
         .elasticY(true)
         .yAxis().ticks;
 }
@@ -231,7 +232,7 @@ function player_by_age(ndx) {
     var minAge = age_dim.bottom();
     var maxAge = age_dim.top();
 
-    dc.barChart("#player-by-age")
+    dc.rowChart("#player-by-age")
         .width(600)
         .height(600)
         .margins({ top: 10, right: 50, bottom: 30, left: 50 })
@@ -239,39 +240,41 @@ function player_by_age(ndx) {
         .group(age_group)
         .transitionDuration(500)
         .x(d3.scale.linear().domain([minAge, maxAge]))
-        .title(function(d){return d.value;})
-        .xAxisLabel("Age")
-        .yAxisLabel("Number of players")
-        .elasticX(true)
-        .colors(d3.scale.category10())
-        .brushOn(false);
+        // .xAxisLabel("Age")
+        // .yAxisLabel("Number of players")
+        .elasticX(true);
+        // .brushOn(false);
+
+
 }
 
 // ------------------------------------------------- PLAYERS BY DRAFT YEAR SCATTER PLOT ------------------------
 
-// function player_by_draft_year(ndx) {
-//     var draftYear_dim = ndx.dimension(dc.pluck("players__player__draft__year"));
-//     var draftYear_group = draftYear_dim.group();
 
-//     var min_year = draftYear_dim.bottom;
-//     var max_year = draftYear_dim.top;
+function player_by_draft_year(ndx) {
+    var draftYear_dim = ndx.dimension(dc.pluck("players__player__draft__year"));
+    var ageVsDraft_dim = ndx.dimension(function(d) {
+        return [d.players__player__draft__year, d.players__player__age];
+    });
+    
+    var ageVsDraft_group = ageVsDraft_dim.group();
 
-//     dc.scatterPlot("#player-by-draft-year")
-//         .width(800)
-//         .height(500)
-//         .x(d3.scale.linear().domain([min_year, max_year]))
-//         .brushOn(false)
-//         .symbolSize(8)
-//         .clipPadding(10)
-//         .xAxisLabel("Year")
-//         .dimension(draftYear_dim)
-//         .group(draftYear_group)
-//         .data(function(group) {
-//             return group.all()
-//                 .filter(function(d) { return d.key !== "null"; });
-//         });
+    var minYear = draftYear_dim.bottom();
+    var maxYear = draftYear_dim.top();
 
-// }
+    dc.scatterPlot("#player-by-draft-year")
+        .width(800)
+        .height(500)
+        .x(d3.scale.linear().domain([1997, 2019]))
+        .y(d3.scale.linear().domain([15, 45]))
+        .yAxisLabel("Age")
+        .xAxisLabel("Year")
+        .dimension(ageVsDraft_dim)
+        .group(ageVsDraft_group)
+        .brushOn(false)
+        .symbolSize(8)
+        .clipPadding(10);
+}
 
 // ------------------------------------------------------------- AVERAGE WEIGHT ------------------------------------------------
 
