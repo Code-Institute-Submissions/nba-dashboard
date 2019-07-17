@@ -150,7 +150,8 @@ function player_by_country(ndx) {
     var country_dim = ndx.dimension(dc.pluck("players__player__birth_country"));
     var country_group = country_dim.group();
 
-    var country_colorScale = d3.scale.ordinal().domain(["USA", "Others"])
+    var country_colorScale = d3.scale.ordinal()
+        .domain(["USA", "Others"])
         .range(["red", "blue"]);
 
     dc.pieChart("#player-country")
@@ -161,6 +162,7 @@ function player_by_country(ndx) {
         .colors(country_colorScale)
         .transitionDuration(1500)
         .dimension(country_dim)
+        .legend(dc.legend())
         .group(country_group);
 }
 
@@ -196,9 +198,9 @@ function player_position(ndx) {
     var position_group = position_dim.group();
     var position_filtered_group = getTops(position_group);
 
-    var colors = d3.scale.ordinal()
-        .domain(["C", "PF", "SF", "SG", "PG"])
-        .range(["purple", "yellow", "red", "green", "orange"])
+    var position_colors = d3.scale.ordinal()
+                                    .domain(["C", "PF", "SF", "SG", "PG"])
+                                    .range(["purple", "yellow", "red", "green", "orange"]);
 
     function getTops(position_group) {
         return {
@@ -211,15 +213,24 @@ function player_position(ndx) {
     dc.barChart("#player-position")
         .width(400)
         .height(400)
-        .margins({ top: 10, right: 50, bottom: 30, left: 50 })
+        .margins({ top: 100, right: 100, bottom: 30, left: 50 })
         .dimension(position_dim)
         .group(position_filtered_group)
         .transitionDuration(1500)
         .x(d3.scale.ordinal())
         .xUnits(dc.units.ordinal)
+        .colors(position_colors)
+        .colorAccessor(function(d) {
+            return d.value;
+        })
         .xAxisLabel("Position")
         .yAxisLabel("Number of players")
         .elasticY(true)
+        .legend(dc.legend().x(30).y(30).gap(5).horizontal(true).legendText(dc.pluck("players__player__primary_position")))
+        .title(function(d) {
+            return d.value + " players playing as " + d.key;
+        })
+        .renderHorizontalGridLines(true)
         .yAxis().ticks;
 }
 
@@ -240,10 +251,14 @@ function player_by_age(ndx) {
         .group(age_group)
         .transitionDuration(500)
         .x(d3.scale.linear().domain([minAge, maxAge]))
-        // .xAxisLabel("Age")
-        // .yAxisLabel("Number of players")
+        .title(function(d) {
+            return d.value + " players aged " + d.key;
+        })
+        .data(function(group) {
+            return group.all()
+                .filter(function(d) { return d.key !== null; });
+        })
         .elasticX(true);
-        // .brushOn(false);
 
 
 }
@@ -256,11 +271,9 @@ function player_by_draft_year(ndx) {
     var ageVsDraft_dim = ndx.dimension(function(d) {
         return [d.players__player__draft__year, d.players__player__age];
     });
-    
-    var ageVsDraft_group = ageVsDraft_dim.group();
 
-    var minYear = draftYear_dim.bottom();
-    var maxYear = draftYear_dim.top();
+    var ageVsDraft_group = ageVsDraft_dim.group().reduceCount();
+
 
     dc.scatterPlot("#player-by-draft-year")
         .width(800)
@@ -269,9 +282,14 @@ function player_by_draft_year(ndx) {
         .y(d3.scale.linear().domain([15, 45]))
         .yAxisLabel("Age")
         .xAxisLabel("Year")
+        .title(function(d) {
+            return d.value + " players aged " + d.key[1] + " and drafted in " + d.key[0];
+        })
         .dimension(ageVsDraft_dim)
         .group(ageVsDraft_group)
         .brushOn(false)
+        .renderHorizontalGridLines(true)
+        .renderVerticalGridLines(true)
         .symbolSize(8)
         .clipPadding(10);
 }
