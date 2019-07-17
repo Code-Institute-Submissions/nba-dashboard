@@ -16,7 +16,7 @@ function makeGraphs(error, teamRosters) {
     player_by_country(ndx);
     player_other_countries(ndx);
     player_position(ndx);
-    // player_by_age(ndx);
+    player_by_age(ndx);
     // player_by_draft_year(ndx);
     // player_average_weight(ndx, "#average-weight");
 
@@ -89,23 +89,20 @@ function setMarkers(map, locations) {
 
         var markerTitle = team + " @ " + teamCity; // Content for marker title shown when hover over
 
-        var imagePath = "logos/nba_logo.png";
+        var imagePath = "logos/nba_logo.png"; // Path for image replacing original map markers
 
-        var markerImage = new google.maps.MarkerImage(imagePath,
+        var markerImage = new google.maps.MarkerImage(imagePath, // Replaces original markers with nba logo
             new google.maps.Size(13, 32));
 
-        // var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
 
         var marker = new google.maps.Marker({ // Sets markers on map
             map: map,
             title: markerTitle,
             icon: markerImage,
-            // label: labels[i % labels.length],
             position: latlngset
         });
 
-        //                         // Add a marker clusterer to manage the markers.
-        // var markerCluster = new MarkerClusterer(map, marker,);
 
         var content = teamLogo + "<br>" + // Creates content for info windows shown when clicking on marker
             "<strong>Team: </strong>" + team + "<br>" +
@@ -122,6 +119,8 @@ function setMarkers(map, locations) {
             };
         })(marker, content, infowindow));
     }
+    
+
 }
 
 
@@ -225,23 +224,28 @@ function player_position(ndx) {
 
 // -------------------------------------------------- PLAYERS BY AGE ROW CHART ------------------------------------------
 
-// function player_by_age(ndx) {
-//     var age_dim = ndx.dimension(dc.pluck("players__player__age"));
-//     var age_group = age_dim.group();
+function player_by_age(ndx) {
+    var age_dim = ndx.dimension(dc.pluck("players__player__age"));
+    var age_group = age_dim.group().reduceCount();
 
-//     dc.barChart("#player-by-age")
-//         .width(600)
-//         .height(600)
-//         .margins({ top: 10, right: 50, bottom: 30, left: 50 })
-//         .dimension(age_dim)
-//         .group(age_group)
-//         .transitionDuration(500)
-//         .x(d3.scale.linear())
-//         .xUnits(dc.units.linear)
-//         .xAxisLabel("Age")
-//         .elasticY(true)
-//         .yAxis().ticks(5);
-// }
+    var minAge = age_dim.bottom();
+    var maxAge = age_dim.top();
+
+    dc.barChart("#player-by-age")
+        .width(600)
+        .height(600)
+        .margins({ top: 10, right: 50, bottom: 30, left: 50 })
+        .dimension(age_dim)
+        .group(age_group)
+        .transitionDuration(500)
+        .x(d3.scale.linear().domain([minAge, maxAge]))
+        .title(function(d){return d.value;})
+        .xAxisLabel("Age")
+        .yAxisLabel("Number of players")
+        .elasticX(true)
+        .colors(d3.scale.category10())
+        .brushOn(false);
+}
 
 // ------------------------------------------------- PLAYERS BY DRAFT YEAR SCATTER PLOT ------------------------
 
