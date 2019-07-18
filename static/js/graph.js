@@ -131,15 +131,18 @@ function player_by_state(ndx) {
     var state_dim = ndx.dimension(dc.pluck("players__player__birth_state"));
     var group = state_dim.group();
 
+
     dc.pieChart("#player-state")
-        .width(800)
-        .height(800)
+        .width(1000)
+        .height(1000)
         .radius(200)
         .transitionDuration(1500)
-        .externalLabels(100)
+        .externalLabels(50)
         .drawPaths(true)
         .renderTitle(true)
-        .minAngleForLabel(0)
+        .minAngleForLabel(0.1)
+        .legend(dc.legend().horizontal(true).autoItemWidth(true))
+        .ordering(function(d) { return d.key })
         .dimension(state_dim)
         .group(group);
 }
@@ -147,6 +150,7 @@ function player_by_state(ndx) {
 // ---------------------------------------------------------- PLAYER BY COUNTRY PIE CHART -------------------------------------
 
 function player_by_country(ndx) {
+
     var country_dim = ndx.dimension(dc.pluck("players__player__birth_country"));
     var country_group = country_dim.group();
 
@@ -159,6 +163,7 @@ function player_by_country(ndx) {
         .width(300)
         .radius(200)
         .slicesCap(1)
+        .innerRadius(100)
         .colors(country_colorScale)
         .transitionDuration(1500)
         .dimension(country_dim)
@@ -181,7 +186,9 @@ function player_other_countries(ndx) {
         .externalLabels(50)
         .drawPaths(true)
         .renderTitle(true)
-        .minAngleForLabel(0)
+        .minAngleForLabel(0.15)
+        .colors(d3.scale.category20b())
+        .legend(dc.legend().horizontal(true).autoItemWidth(true))
         .dimension(otherCountries_dim)
         .group(otherCountries_group)
         .data(function(group) {
@@ -196,37 +203,29 @@ function player_other_countries(ndx) {
 function player_position(ndx) {
     var position_dim = ndx.dimension(dc.pluck("players__player__primary_position"));
     var position_group = position_dim.group();
-    var position_filtered_group = getTops(position_group);
 
     var position_colors = d3.scale.ordinal()
-                                    .domain(["C", "PF", "SF", "SG", "PG"])
-                                    .range(["purple", "yellow", "red", "green", "orange"]);
+        .domain(["C", "PF", "SF", "SG", "PG"])
+        .range(["#984ea3", "#e6ab02", "#66a61e", "#386cb0", "#e31a1c"]);
 
-    function getTops(position_group) {
-        return {
-            all: function() {
-                return position_group.top(5);
-            }
-        };
-    }
 
     dc.barChart("#player-position")
         .width(400)
         .height(400)
         .margins({ top: 100, right: 100, bottom: 30, left: 50 })
         .dimension(position_dim)
-        .group(position_filtered_group)
+        .group(position_group)
         .transitionDuration(1500)
         .x(d3.scale.ordinal())
         .xUnits(dc.units.ordinal)
         .colors(position_colors)
         .colorAccessor(function(d) {
-            return d.value;
+            return d.key;
         })
         .xAxisLabel("Position")
         .yAxisLabel("Number of players")
         .elasticY(true)
-        .legend(dc.legend().x(30).y(30).itemWidth(20).horizontal(true).legendText(function(d) { return d.key}))
+        .legend(dc.legend().x(30).y(30).itemWidth(20).horizontal(true).legendText(function(d) { return d.key }))
         .title(function(d) {
             return d.value + " players playing as " + d.key;
         })
@@ -268,6 +267,7 @@ function player_by_age(ndx) {
 
 
 function player_by_draft_year(ndx) {
+
     var draftYear_dim = ndx.dimension(dc.pluck("players__player__draft__year"));
     var ageVsDraft_dim = ndx.dimension(function(d) {
         return [d.players__player__draft__year, d.players__player__age];
@@ -291,6 +291,8 @@ function player_by_draft_year(ndx) {
         .brushOn(false)
         .renderHorizontalGridLines(true)
         .renderVerticalGridLines(true)
+        .colorAccessor(function(kv) { return kv.value; })
+        .legend(dc.legend())
         .symbolSize(8)
         .clipPadding(10);
 }
