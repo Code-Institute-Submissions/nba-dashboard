@@ -226,7 +226,7 @@ function player_position(ndx) {
         .xAxisLabel("Position")
         .yAxisLabel("Number of players")
         .elasticY(true)
-        .legend(dc.legend().x(30).y(30).gap(5).horizontal(true).legendText(dc.pluck("players__player__primary_position")))
+        .legend(dc.legend().x(30).y(30).itemWidth(20).horizontal(true).legendText(function(d) { return d.key}))
         .title(function(d) {
             return d.value + " players playing as " + d.key;
         })
@@ -244,9 +244,9 @@ function player_by_age(ndx) {
     var maxAge = age_dim.top();
 
     dc.rowChart("#player-by-age")
-        .width(600)
+        .width(700)
         .height(600)
-        .margins({ top: 10, right: 50, bottom: 30, left: 50 })
+        .margins({ top: 10, right: 50, bottom: 30, left: 70 })
         .dimension(age_dim)
         .group(age_group)
         .transitionDuration(500)
@@ -254,6 +254,7 @@ function player_by_age(ndx) {
         .title(function(d) {
             return d.value + " players aged " + d.key;
         })
+        .labelOffsetX(-30)
         .data(function(group) {
             return group.all()
                 .filter(function(d) { return d.key !== null; });

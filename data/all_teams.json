@@ -5853,7 +5853,7 @@
    "players__player__birth_country_code": "USA",
    "players__player__birthdate": "14/01/1993",
    "players__player__age": 25,
-   "players__player__draft__year": 0
+   "players__player__draft__year": 2016
  },
  {
    "xmlns": null,
@@ -10413,7 +10413,7 @@
    "players__player__birth_country_code": "USA",
    "players__player__birthdate": "08/03/1994",
    "players__player__age": 24,
-   "players__player__draft__year": null
+   "players__player__draft__year": 2015
  },
  {
    "xmlns": null,
