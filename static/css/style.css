@@ -1,3 +1,22 @@
+body {
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+}
+
+h3 {
+    text-align: center;
+    text-decoration: underline;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+p {
+    font-size: 18px;
+}
+
+
+/* -------------------------------------------------------------VENUES MAP -- */
+
 #map {
     min-height: 360px;
 }
@@ -7,9 +26,39 @@
     padding-bottom: 10px;
 }
 
+/* */
+
+.dc-legend {
+    font-size: 20px;
+}
+
+dc-legend-item {
+    margin-top: 10px;
+}
+
+.dc-chart .pie-slice {
+    font-size: 16px;
+}
+
+/* ----------------------------------------------- PLAYERS POSTION BAR CHART --*/
+
+#player-position {
+    margin-left: 100px;
+}
+
+/* ------------------------------------------ PLAYERS BY COUNTRY DONUT CHART --*/
+
+#player-country {
+    margin-left: 175px;
+}
+
+/* ---------------------------------------------------- PLAYERS BY AGE CHART --*/
+
 #player-by-age .row text {
     fill: black;
 }
+
+
 
 
 

@@ -6,15 +6,19 @@
     <meta charset="utf-8">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="static/css/dc.min.css" type="text/css" />
     <link rel="stylesheet" href="static/css/style.css" type="text/css" />
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="static/js/d3-scale-chromatic.v1.min.js"></script>
     <script type="text/javascript" src="static/js/d3.min.js"></script>
     <script type="text/javascript" src="static/js/crossfilter.min.js"></script>
     <script type="text/javascript" src="static/js/dc.min.js"></script>
     <script type="text/javascript" src="static/js/queue.min.js"></script>
     <script type="text/javascript" src="static/js/graph.js"></script>
+
 
     <title>NBA</title>
 
@@ -24,14 +28,61 @@
     <h2>NBA</h2>
 
     <section>
-        <div class="container">
+        <div class="container-fluid">
+
+            <!-- PLAYER RANKINGS -->
+            <!--<div class="row">-->
+            <!--    <div class="col">-->
+            <!--        <h3>PLAYER RANKINGS</h3>-->
+            <!--        <h6>Top 10 taller players</h6>-->
+            <!--        <table id="taller-players">-->
+            <!--            <thead>-->
+            <!--                <tr class="table-header">-->
+            <!--                    <th>Player Name</th>-->
+            <!--                    <th>Height</th>-->
+            <!--                </tr>-->
+
+            <!--            </thead>-->
+            <!--        </table>-->
+            <!--    </div>-->
+            <!--</div>-->
+
             <!-- VENUES MAP -->
             <div class="row">
                 <div class="col">
                     <h3>VENUES MAP</h3>
+                    <p>The map below indicates the location of the venues for each team of the NBA season 2018/19. Click on each marker to get more information about the venue and the team.</p>
                     <div id="map"></div>
                 </div>
             </div>
+
+            <!--FIRST ROW-->
+            <div class="row">
+                
+                <!-- PLAYER POSITION -->
+                <div class="col">
+                    <h3>PLAYERS POSITIONS</h3>
+                    <p>This chart distributes the players according to their primary position on the court, the position they normally play as.</p>
+                    <p>Shooting Guard (SG) is the most numerous one as it is also the most versatile, these players can usually cover the postions of Point Guard (PG) and Small Forward (SF).</p>
+                    <p>Center (C) is the position that has the less number of players as these are the tallest players and this position sometimes is occupied by Power Forward players (PF).</p>
+                    <div id="player-position"></div>
+                </div>
+                
+                <!-- PLAYER BY COUNTRY PIE CHART -->
+                <div class="col">
+                    <h3>PLAYERS BY COUNTRY</h3>
+                    <div id="player-country"></div>
+                </div>
+            </div>
+
+            <!-- PLAYER BY OTHER COUNTRIES PIE CHART -->
+            <div class="row">
+                <div class="col">
+                    <h3>PLAYERS FROM REST OF THE WORLD</h3>
+                    <div id="player-other-countries"></div>
+                </div>
+            </div>
+
 
             <!-- PLAYER BY STATE PIE CHART -->
             <div class="row">
@@ -41,23 +92,7 @@
                 </div>
             </div>
 
-            <!-- PLAYER BY COUNTRY PIE CHART -->
-            <div class="row">
-                <div class="col">
-                    <h3>PLAYERS BY COUNTRY</h3>
-                    <div id="player-country"></div>
-                    <div id="player-other-countries"></div>
 
-                </div>
-            </div>
-
-            <!-- PLAYER POSITION -->
-            <div class="row">
-                <div class="col">
-                    <h3>PLAYERS POSITIONS</h3>
-                    <div id="player-position"></div>
-                </div>
-            </div>
 
             <!-- PLAYER BY AGE -->
             <div class="row">
@@ -75,13 +110,7 @@
                 </div>
             </div>
 
-            <!-- AVERAGE PLAYER WEIGHT -->
-            <div class="row">
-                <div class="col">
-                    <h3>AVERAGE PLAYER WEIGHT</h3>
-                    <div id="average-weight"></div>
-                </div>
-            </div>
+
 
 
         </div>
@@ -90,7 +119,7 @@
 
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJD5Aw1cD-P4jdl7aCzt8V2PKRMbcQqCU&libraries=visualization,places&callback=initMap">
     </script>
-        <script src="static/js/markerclusterer.js">
+    <script src="static/js/markerclusterer.js">
     </script>
 </body>
 
