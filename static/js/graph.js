@@ -5,12 +5,7 @@ queue()
 function makeGraphs(error, teamRosters) {
     var ndx = crossfilter(teamRosters);
 
-    // teamRosters.forEach(function(d) {
-    //     d.players__player__weight = parseFloat(d.players__player__weight);
-    //     d.players__player__draft__year = parseFloat(d.players__player__draft__year);
-
-    // });
-
+    // taller_players(ndx);
     initMap();
     player_by_state(ndx);
     player_by_country(ndx);
@@ -18,10 +13,51 @@ function makeGraphs(error, teamRosters) {
     player_position(ndx);
     player_by_age(ndx);
     player_by_draft_year(ndx);
-    // player_average_weight(ndx, "#average-weight");
 
     dc.renderAll();
 }
+
+// ------------------------------------------------------------- PLAYERS RANKINGS ------------------------------------------------
+
+// function taller_players(ndx) {
+
+//     var taller_players_dim = ndx.dimension(function(d) {
+//         return d.players__player__full_name + " " + d.players__player__height;
+//     });
+//     var taller_players_group = taller_players_dim.group().reduce();
+
+//     dc.dataTable("#taller-players")
+//         .width(700)
+//         .height(700)
+//         .dimension(taller_players_dim)
+//         .group(taller_players_group)
+//         .showGroups(false)
+//         .size(10)
+//         // .beginSlice[1]
+//         // .endSlice[10]
+//         .columns([
+//             function(d) { return d.players__player__full_name },
+//             function(d) { return d.players__player__height }
+//         ])
+//         .sortBy(function(d) {
+//             return d.value;
+//         })
+//         .order(d3.descending);
+
+//     function reversible_group(group) {
+//         return {
+//             top: function(N) {
+//                 return group.top(N);
+//             },
+//             bottom: function(N) {
+//                 return group.top(Infinity).slice(-N).reverse();
+//             }
+//         };
+//     }
+// }
+
+
+
 
 // ------------------------------------------------------------ VENUES MAP -------------------------------------------------
 
@@ -124,80 +160,6 @@ function setMarkers(map, locations) {
 }
 
 
-
-// -------------------------------------------------------- PLAYER BY STATE PIE CHART ----------------------------------------
-
-function player_by_state(ndx) {
-    var state_dim = ndx.dimension(dc.pluck("players__player__birth_state"));
-    var group = state_dim.group();
-
-
-    dc.pieChart("#player-state")
-        .width(1000)
-        .height(1000)
-        .radius(200)
-        .transitionDuration(1500)
-        .externalLabels(50)
-        .drawPaths(true)
-        .renderTitle(true)
-        .minAngleForLabel(0.1)
-        .legend(dc.legend().horizontal(true).autoItemWidth(true))
-        .ordering(function(d) { return d.key })
-        .dimension(state_dim)
-        .group(group);
-}
-
-// ---------------------------------------------------------- PLAYER BY COUNTRY PIE CHART -------------------------------------
-
-function player_by_country(ndx) {
-
-    var country_dim = ndx.dimension(dc.pluck("players__player__birth_country"));
-    var country_group = country_dim.group();
-
-    var country_colorScale = d3.scale.ordinal()
-        .domain(["USA", "Others"])
-        .range(["red", "blue"]);
-
-    dc.pieChart("#player-country")
-        .height(300)
-        .width(300)
-        .radius(200)
-        .slicesCap(1)
-        .innerRadius(100)
-        .colors(country_colorScale)
-        .transitionDuration(1500)
-        .dimension(country_dim)
-        .legend(dc.legend())
-        .group(country_group);
-}
-
-// ------------------------------------------------------- PLAYERS FROM OTHER COUNTRIES PIE CHART ------------------------------
-
-function player_other_countries(ndx) {
-    var otherCountries_dim = ndx.dimension(dc.pluck("players__player__birth_country"));
-    var otherCountries_group = otherCountries_dim.group();
-
-
-    dc.pieChart("#player-other-countries")
-        .height(700)
-        .width(700)
-        .radius(200)
-        .transitionDuration(1500)
-        .externalLabels(50)
-        .drawPaths(true)
-        .renderTitle(true)
-        .minAngleForLabel(0.15)
-        .colors(d3.scale.category20b())
-        .legend(dc.legend().horizontal(true).autoItemWidth(true))
-        .dimension(otherCountries_dim)
-        .group(otherCountries_group)
-        .data(function(group) {
-            return group.all()
-                .filter(function(d) { return d.key !== "USA"; });
-        });
-
-}
-
 // ----------------------------------------------------------- PLAYER POSITION BAR CHART ------------------------------------
 
 function player_position(ndx) {
@@ -210,8 +172,8 @@ function player_position(ndx) {
 
 
     dc.barChart("#player-position")
-        .width(400)
         .height(400)
+        .width(500)
         .margins({ top: 100, right: 100, bottom: 30, left: 50 })
         .dimension(position_dim)
         .group(position_group)
@@ -225,13 +187,89 @@ function player_position(ndx) {
         .xAxisLabel("Position")
         .yAxisLabel("Number of players")
         .elasticY(true)
-        .legend(dc.legend().x(30).y(30).itemWidth(20).horizontal(true).legendText(function(d) { return d.key }))
         .title(function(d) {
             return d.value + " players playing as " + d.key;
         })
         .renderHorizontalGridLines(true)
         .yAxis().ticks;
 }
+
+
+// ---------------------------------------------------------- PLAYER BY COUNTRY PIE CHART -------------------------------------
+
+function player_by_country(ndx) {
+
+    var country_dim = ndx.dimension(dc.pluck("players__player__birth_country"));
+    var country_group = country_dim.group();
+
+    var country_colorScale = d3.scale.ordinal()
+        .domain(["USA", "Others"])
+        .range(["red", "blue"]);
+
+    dc.pieChart("#player-country")
+        .height(400)
+        .width(300)
+        .radius(200)
+        .slicesCap(1)
+        .innerRadius(100)
+        .colors(country_colorScale)
+        .transitionDuration(1500)
+        .dimension(country_dim)
+        .group(country_group);
+}
+
+// ------------------------------------------------------- PLAYERS FROM OTHER COUNTRIES PIE CHART ------------------------------
+
+function player_other_countries(ndx) {
+    var otherCountries_dim = ndx.dimension(dc.pluck("players__player__birth_country"));
+    var otherCountries_group = otherCountries_dim.group();
+
+
+    dc.pieChart("#player-other-countries")
+        .height(600)
+        .width(1200)
+        .radius(200)
+        .transitionDuration(1500)
+        .externalLabels(50)
+        .drawPaths(true)
+        .renderTitle(true)
+        .minAngleForLabel(0.15)
+        .cx(900)
+        .colors(d3.scale.category20b())
+        .legend(dc.legend().horizontal(true).legendWidth(300).autoItemWidth(true).x(100).y(120).gap(10))
+        .dimension(otherCountries_dim)
+        .group(otherCountries_group)
+        .data(function(group) {
+            return group.all()
+                .filter(function(d) { return d.key !== "USA"; });
+        });
+
+}
+
+// -------------------------------------------------------- PLAYER BY STATE PIE CHART ----------------------------------------
+
+function player_by_state(ndx) {
+    var state_dim = ndx.dimension(dc.pluck("players__player__birth_state"));
+    var group = state_dim.group();
+
+
+    dc.pieChart("#player-state")
+        .height(600)
+        .width(1200)
+        .radius(200)
+        .transitionDuration(1500)
+        .externalLabels(50)
+        .drawPaths(true)
+        .renderTitle(true)
+        .minAngleForLabel(0.1)
+        .cx(400)
+        .legend(dc.legend().horizontal(true).legendWidth(300).autoItemWidth(true).x(900).y(90).gap(10))
+        .ordering(function(d) { return d.key })
+        .dimension(state_dim)
+        .group(group);
+}
+
+
 
 // -------------------------------------------------- PLAYERS BY AGE ROW CHART ------------------------------------------
 
@@ -243,8 +281,8 @@ function player_by_age(ndx) {
     var maxAge = age_dim.top();
 
     dc.rowChart("#player-by-age")
-        .width(700)
-        .height(600)
+        .width(800)
+        .height(500)
         .margins({ top: 10, right: 50, bottom: 30, left: 70 })
         .dimension(age_dim)
         .group(age_group)
@@ -296,37 +334,3 @@ function player_by_draft_year(ndx) {
         .symbolSize(8)
         .clipPadding(10);
 }
-
-// ------------------------------------------------------------- AVERAGE WEIGHT ------------------------------------------------
-
-// function player_average_weight(ndx, players__player__primary_position, element) {
-
-//     var averageWeight_dim = ndx.dimension(dc.pluck("players__player__primary_position"))
-
-//     function add_item(p, v) {
-//         p.count++;
-//         p.total += v.players__player__weight;
-//         p.average = p.total / p. count;
-
-//         return p;
-//     }
-
-//     function remove_item(p, v) {
-//         p.count --;
-//         if(p.count == 0) {
-//             p.total = 0;
-//             p.average = 0;
-//         } else {
-//             p.total -= v.players__player__weight;
-//             p.average = p.total / p.count;
-//         }
-//         return p;
-//     }
-
-//     var averageWeight_group = averageWeight_dim.group().reduce(add_item, remove_item);
-
-// dc.numberDisplay(element)
-//     .formatNumber(d3.format(".2"))
-//     .dimension(averageWeight_dim)
-//     .group(averageWeight_group);
-// }
