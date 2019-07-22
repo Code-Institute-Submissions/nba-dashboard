@@ -25,27 +25,12 @@
 </head>
 
 <body>
-    <h2>NBA</h2>
-
     <section>
-        <div class="container-fluid">
 
-            <!-- PLAYER RANKINGS -->
-            <!--<div class="row">-->
-            <!--    <div class="col">-->
-            <!--        <h3>PLAYER RANKINGS</h3>-->
-            <!--        <h6>Top 10 taller players</h6>-->
-            <!--        <table id="taller-players">-->
-            <!--            <thead>-->
-            <!--                <tr class="table-header">-->
-            <!--                    <th>Player Name</th>-->
-            <!--                    <th>Height</th>-->
-            <!--                </tr>-->
+        <h2>NBA</h2>
 
-            <!--            </thead>-->
-            <!--        </table>-->
-            <!--    </div>-->
-            <!--</div>-->
+        <div class="container">
+
 
             <!-- VENUES MAP -->
             <div class="row">
@@ -58,7 +43,7 @@
 
             <!--FIRST ROW-->
             <div class="row">
-                
+
                 <!-- PLAYER POSITION -->
                 <div class="col">
                     <h3>PLAYERS POSITIONS</h3>
@@ -67,10 +52,13 @@
                     <p>Center (C) is the position that has the less number of players as these are the tallest players and this position sometimes is occupied by Power Forward players (PF).</p>
                     <div id="player-position"></div>
                 </div>
-                
+
                 <!-- PLAYER BY COUNTRY PIE CHART -->
                 <div class="col">
                     <h3>PLAYERS BY COUNTRY</h3>
+                    <p>About 75% of players are American. Even despite the number of players from other countries increasing year by year, especially in the last two decades, these only reach just about a quarter of the total.</p>
+                    <p>Los Angeles Lakers is the only team of the 2018/19 season with only American born players in its team roster.</p>
+                    <p>Dallas Mavericks is the team with the most variety of nationalities, with players coming from nine different countries and four continents: USA, Tunisia, Latvia, Germany, Canada, Puerto Rico, Australia, Greece and Slovenia.</p>
                     <div id="player-country"></div>
                 </div>
             </div>
@@ -79,39 +67,106 @@
             <div class="row">
                 <div class="col">
                     <h3>PLAYERS FROM REST OF THE WORLD</h3>
+                    <p>Despite still being a clear minority when compared to players form the USA, there are players from all continents, and their number have been increasing with the years with more and more being traded in or drafted every year.</p>
+                    <p>Europe is still the dominant market for non-American players, but Canada and Australia are the individual countries with more players in the 2018/19 season.</p>
                     <div id="player-other-countries"></div>
                 </div>
             </div>
 
-
             <!-- PLAYER BY STATE PIE CHART -->
             <div class="row">
                 <div class="col">
-                    <h3>PLAYERS BY STATE</h3>
+                    <h3>PLAYERS BY STATE (USA and CANADA only)</h3>
+                    <p>There are players from all the US States with the exception of Alaska, Hawaii, Idaho, Maine, Montana, New Mexico, Rhode Island, South Dakota and Vermont.</p>
+                    <p>From the 16 Canadian, players, 13 of them come from the province of Ontario, where the only Canadian team in the League, the Toronto Raptors, are based on.</p>
                     <div id="player-state"></div>
                 </div>
             </div>
-
-
 
             <!-- PLAYER BY AGE -->
             <div class="row">
                 <div class="col">
                     <h3>PLAYERS BY AGE</h3>
-                    <div id="player-by-age"></div>
                 </div>
             </div>
+
+            <!--row chart-->
+            <div class="row">
+                <div class="col">
+                    <div id="player-by-age"></div>
+                </div>
+
+                <!--player data-->
+                <div class="col" id="age-players-pics">
+                    <div class="row">
+                        <div class="col">
+                            <div class="col">
+                                <img src="pics/talen_horton-tucker.png"></img>
+                            </div>
+                            <div class="col">
+                                <p><strong>Youngest player:</strong> Talen Horton-Tucker</p>
+                                <p><strong>Date of birth:</strong> 25 - November - 2000</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="col">
+                                <img src="pics/vince_carter.png"></img>
+                            </div>
+                            <div class="col">
+                                <p><strong>Oldest player:</strong> Vince Carter</p>
+                                <p><strong>Date of birth:</strong> 26 - January - 1977</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
 
             <!-- PLAYER BY DRAFT YEAR -->
             <div class="row">
                 <div class="col">
                     <h3>PLAYERS BY DRAFT YEAR</h3>
+                </div>
+            </div>
+
+            <div class="row">
+                <!--teams data-->
+                <div class="col" id="draft-team-pics">
+                    <div class="row">
+                        <div class="col">
+                            <div class="col">
+                                <img src="logos/la_lakers.png" class="chart-team-logo"></img>
+                            </div>
+                            <div class="col">
+                                <p><strong>Most experienced team:</strong> Los Angeles Lakers</p>
+                                <p><strong>Average player experience:</strong> 7 seasons</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="col">
+                                <img src="logos/chicago_bulls.png" class="chart-team-logo"></img>
+                            </div>
+                            <div class="col">
+                                <p><strong>Least experienced team:</strong> Chicago Bulls</p>
+                                <p><strong>Average player experience:</strong> 3 seasons</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--scatter plot chart-->
+                <div class="col">
                     <div id="player-by-draft-year"></div>
                 </div>
             </div>
 
-
-
+        </div>
+        </div>
 
         </div>
 

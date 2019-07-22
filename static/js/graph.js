@@ -5,7 +5,6 @@ queue()
 function makeGraphs(error, teamRosters) {
     var ndx = crossfilter(teamRosters);
 
-    // taller_players(ndx);
     initMap();
     player_by_state(ndx);
     player_by_country(ndx);
@@ -17,44 +16,6 @@ function makeGraphs(error, teamRosters) {
     dc.renderAll();
 }
 
-// ------------------------------------------------------------- PLAYERS RANKINGS ------------------------------------------------
-
-// function taller_players(ndx) {
-
-//     var taller_players_dim = ndx.dimension(function(d) {
-//         return d.players__player__full_name + " " + d.players__player__height;
-//     });
-//     var taller_players_group = taller_players_dim.group().reduce();
-
-//     dc.dataTable("#taller-players")
-//         .width(700)
-//         .height(700)
-//         .dimension(taller_players_dim)
-//         .group(taller_players_group)
-//         .showGroups(false)
-//         .size(10)
-//         // .beginSlice[1]
-//         // .endSlice[10]
-//         .columns([
-//             function(d) { return d.players__player__full_name },
-//             function(d) { return d.players__player__height }
-//         ])
-//         .sortBy(function(d) {
-//             return d.value;
-//         })
-//         .order(d3.descending);
-
-//     function reversible_group(group) {
-//         return {
-//             top: function(N) {
-//                 return group.top(N);
-//             },
-//             bottom: function(N) {
-//                 return group.top(Infinity).slice(-N).reverse();
-//             }
-//         };
-//     }
-// }
 
 
 
@@ -281,9 +242,9 @@ function player_by_age(ndx) {
     var maxAge = age_dim.top();
 
     dc.rowChart("#player-by-age")
-        .width(800)
-        .height(500)
-        .margins({ top: 10, right: 50, bottom: 30, left: 70 })
+        .width(1000)
+        .height(600)
+        .margins({ top: 10, right: 50, bottom: 30, left: 100 })
         .dimension(age_dim)
         .group(age_group)
         .transitionDuration(500)
@@ -315,8 +276,8 @@ function player_by_draft_year(ndx) {
 
 
     dc.scatterPlot("#player-by-draft-year")
-        .width(800)
-        .height(500)
+        .width(1000)
+        .height(600)
         .x(d3.scale.linear().domain([1997, 2019]))
         .y(d3.scale.linear().domain([15, 45]))
         .yAxisLabel("Age")

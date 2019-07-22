@@ -1,6 +1,12 @@
 body {
     font-family: 'Oswald', sans-serif;
-    font-size: 16px;
+    font-size: 20px;
+}
+
+.container {
+    max-width: 100%;
+    margin-right: 0px;
+    margin-left: 0px;
 }
 
 h3 {
@@ -8,10 +14,6 @@ h3 {
     text-decoration: underline;
     padding-top: 30px;
     padding-bottom: 30px;
-}
-
-p {
-    font-size: 18px;
 }
 
 
@@ -55,10 +57,25 @@ dc-legend-item {
 /* ---------------------------------------------------- PLAYERS BY AGE CHART --*/
 
 #player-by-age .row text {
+    font-size: 16px;
     fill: black;
+    margin-right: 50px;
+}
+
+#age-players-pics {
+    padding-top: 10px;
+    text-align: center;
 }
 
 
+/*---------------------------------------------------- PLAYERS BY DRAFT YEAR --*/
 
+#draft-team-pics {
+    text-align: center;
+}
 
-
+.chart-team-logo {
+    padding-top: 15px;
+    max-width: 260px;
+    max-height: 190px;
+}
