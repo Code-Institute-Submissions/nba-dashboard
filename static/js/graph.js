@@ -61,8 +61,8 @@ var locations = [
 
 function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 4,
-        center: { lat: 38, lng: -95 }, // Center is a set so all markers show when map is rendered 
+        zoom: 5,
+        center: { lat: 37, lng: -97 }, // Center is a set so all markers show when map is rendered 
     });
     setMarkers(map, locations);
 }
@@ -89,7 +89,7 @@ function setMarkers(map, locations) {
         var imagePath = "logos/nba_logo.png"; // Path for image replacing original map markers
 
         var markerImage = new google.maps.MarkerImage(imagePath, // Replaces original markers with nba logo
-            new google.maps.Size(13, 32));
+            new google.maps.Size(32, 80));
 
 
 
@@ -133,7 +133,7 @@ function player_position(ndx) {
 
 
     dc.barChart("#player-position")
-        .height(400)
+        .height(500)
         .width(500)
         .margins({ top: 100, right: 100, bottom: 30, left: 50 })
         .dimension(position_dim)
@@ -169,10 +169,11 @@ function player_by_country(ndx) {
 
     dc.pieChart("#player-country")
         .height(400)
-        .width(300)
+        .width(500)
         .radius(200)
         .slicesCap(1)
-        .innerRadius(100)
+        .innerRadius(120)
+        .cx(200)
         .colors(country_colorScale)
         .transitionDuration(1500)
         .dimension(country_dim)
@@ -188,16 +189,16 @@ function player_other_countries(ndx) {
 
     dc.pieChart("#player-other-countries")
         .height(600)
-        .width(1200)
+        .width(1400)
         .radius(200)
         .transitionDuration(1500)
-        .externalLabels(50)
+        .externalLabels(70)
         .drawPaths(true)
         .renderTitle(true)
         .minAngleForLabel(0.15)
-        .cx(900)
+        .cx(1100)
         .colors(d3.scale.category20b())
-        .legend(dc.legend().horizontal(true).legendWidth(300).autoItemWidth(true).x(100).y(120).gap(10))
+        .legend(dc.legend().horizontal(true).legendWidth(400).autoItemWidth(true).x(200).y(120).gap(15))
         .dimension(otherCountries_dim)
         .group(otherCountries_group)
         .data(function(group) {
@@ -216,15 +217,15 @@ function player_by_state(ndx) {
 
     dc.pieChart("#player-state")
         .height(600)
-        .width(1200)
+        .width(1400)
         .radius(200)
         .transitionDuration(1500)
-        .externalLabels(50)
+        .externalLabels(70)
         .drawPaths(true)
         .renderTitle(true)
         .minAngleForLabel(0.1)
-        .cx(400)
-        .legend(dc.legend().horizontal(true).legendWidth(300).autoItemWidth(true).x(900).y(90).gap(10))
+        .cx(450)
+        .legend(dc.legend().horizontal(true).legendWidth(400).autoItemWidth(true).x(1000).y(90).gap(15))
         .ordering(function(d) { return d.key })
         .dimension(state_dim)
         .group(group);

@@ -1,6 +1,8 @@
 body {
     font-family: 'Oswald', sans-serif;
     font-size: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
 }
 
 .container {
@@ -9,23 +11,11 @@ body {
     margin-left: 0px;
 }
 
-h3 {
+h2 {
     text-align: center;
     text-decoration: underline;
-    padding-top: 30px;
+    padding-top: 50px;
     padding-bottom: 30px;
-}
-
-
-/* -------------------------------------------------------------VENUES MAP -- */
-
-#map {
-    min-height: 360px;
-}
-
-#window-logo {
-    max-width: 130px;
-    padding-bottom: 10px;
 }
 
 /* */
@@ -42,6 +32,18 @@ dc-legend-item {
     font-size: 16px;
 }
 
+
+/* -------------------------------------------------------------VENUES MAP -- */
+
+#map {
+    min-height: 600px;
+}
+
+#window-logo {
+    max-width: 130px;
+    padding-bottom: 10px;
+}
+
 /* ----------------------------------------------- PLAYERS POSTION BAR CHART --*/
 
 #player-position {
@@ -51,7 +53,12 @@ dc-legend-item {
 /* ------------------------------------------ PLAYERS BY COUNTRY DONUT CHART --*/
 
 #player-country {
+    margin-top: 50px;
     margin-left: 175px;
+}
+
+.x-axis-label {
+    
 }
 
 /* ---------------------------------------------------- PLAYERS BY AGE CHART --*/
@@ -69,6 +76,11 @@ dc-legend-item {
 
 
 /*---------------------------------------------------- PLAYERS BY DRAFT YEAR --*/
+
+#player-by-draft-year {
+    margin-top: 10px;
+    margin-right: 20px;
+}
 
 #draft-team-pics {
     text-align: center;
