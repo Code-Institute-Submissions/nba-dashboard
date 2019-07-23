@@ -5,6 +5,13 @@ body {
     margin-left: 20px;
 }
 
+.header-title {
+    text-align: center;
+    text-decoration: underline;
+    margin-top: 30px;
+    
+}
+
 .container {
     max-width: 100%;
     margin-right: 0px;
@@ -18,7 +25,7 @@ h2 {
     padding-bottom: 30px;
 }
 
-/* */
+/* ---------------------------------------------------- LEGENDS AND SLICES -- */
 
 .dc-legend {
     font-size: 20px;
@@ -53,7 +60,7 @@ dc-legend-item {
 /* ------------------------------------------ PLAYERS BY COUNTRY DONUT CHART --*/
 
 #player-country {
-    margin-top: 50px;
+    margin-top: 40px;
     margin-left: 175px;
 }
 

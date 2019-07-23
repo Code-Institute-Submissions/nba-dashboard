@@ -133,9 +133,9 @@ function player_position(ndx) {
 
 
     dc.barChart("#player-position")
-        .height(500)
+        .height(470)
         .width(500)
-        .margins({ top: 100, right: 100, bottom: 30, left: 50 })
+        .margins({ top: 80, right: 100, bottom: 30, left: 50 })
         .dimension(position_dim)
         .group(position_group)
         .transitionDuration(1500)
@@ -165,7 +165,7 @@ function player_by_country(ndx) {
 
     var country_colorScale = d3.scale.ordinal()
         .domain(["USA", "Others"])
-        .range(["red", "blue"]);
+        .range(["#dc273e", "#00438c"]);
 
     dc.pieChart("#player-country")
         .height(400)
