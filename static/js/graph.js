@@ -195,6 +195,9 @@ function player_other_countries(ndx) {
         .externalLabels(70)
         .drawPaths(true)
         .renderTitle(true)
+        .title(function(d) {
+            return d.value + " players are from " + d.key;
+        })
         .minAngleForLabel(0.15)
         .cx(1100)
         .colors(d3.scale.category20b())
@@ -223,6 +226,9 @@ function player_by_state(ndx) {
         .externalLabels(70)
         .drawPaths(true)
         .renderTitle(true)
+        .title(function(d) {
+            return d.value + " players are from " + d.key;
+        })
         .minAngleForLabel(0.1)
         .cx(450)
         .legend(dc.legend().horizontal(true).legendWidth(400).autoItemWidth(true).x(1000).y(90).gap(15))
