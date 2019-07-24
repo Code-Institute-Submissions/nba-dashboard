@@ -18,8 +18,6 @@ function makeGraphs(error, teamRosters) {
 
 
 
-
-
 // ------------------------------------------------------------ VENUES MAP -------------------------------------------------
 
 // Co-ordinates and data used on map
@@ -61,8 +59,8 @@ var locations = [
 
 function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 5,
-        center: { lat: 37, lng: -97 }, // Center is a set so all markers show when map is rendered 
+        zoom: 4,
+        center: { lat: 39, lng: -97 }, // Center is a set so all markers show when map is rendered 
     });
     setMarkers(map, locations);
 }
@@ -133,9 +131,9 @@ function player_position(ndx) {
 
 
     dc.barChart("#player-position")
-        .height(470)
+        .height(350)
         .width(500)
-        .margins({ top: 80, right: 100, bottom: 30, left: 50 })
+        .margins({ top: 50, right: 100, bottom: 30, left: 50 })
         .dimension(position_dim)
         .group(position_group)
         .transitionDuration(1500)
@@ -168,11 +166,11 @@ function player_by_country(ndx) {
         .range(["#dc273e", "#00438c"]);
 
     dc.pieChart("#player-country")
-        .height(400)
+        .height(300)
         .width(500)
-        .radius(200)
+        .radius(150)
         .slicesCap(1)
-        .innerRadius(120)
+        .innerRadius(90)
         .cx(200)
         .colors(country_colorScale)
         .transitionDuration(1500)
@@ -188,20 +186,21 @@ function player_other_countries(ndx) {
 
 
     dc.pieChart("#player-other-countries")
-        .height(600)
-        .width(1400)
-        .radius(200)
+        .height(500)
+        .width(1200)
+        .radius(150)
         .transitionDuration(1500)
-        .externalLabels(70)
+        .externalLabels(50)
         .drawPaths(true)
         .renderTitle(true)
         .title(function(d) {
             return d.value + " players are from " + d.key;
         })
         .minAngleForLabel(0.15)
-        .cx(1100)
+        .cx(950)
+        .cy(250)
         .colors(d3.scale.category20b())
-        .legend(dc.legend().horizontal(true).legendWidth(400).autoItemWidth(true).x(200).y(120).gap(15))
+        .legend(dc.legend().horizontal(true).legendWidth(400).autoItemWidth(true).x(120).y(80).gap(20))
         .dimension(otherCountries_dim)
         .group(otherCountries_group)
         .data(function(group) {
@@ -219,19 +218,20 @@ function player_by_state(ndx) {
 
 
     dc.pieChart("#player-state")
-        .height(600)
-        .width(1400)
-        .radius(200)
+        .height(500)
+        .width(1200)
+        .radius(150)
         .transitionDuration(1500)
-        .externalLabels(70)
+        .externalLabels(50)
         .drawPaths(true)
         .renderTitle(true)
         .title(function(d) {
             return d.value + " players are from " + d.key;
         })
         .minAngleForLabel(0.1)
-        .cx(450)
-        .legend(dc.legend().horizontal(true).legendWidth(400).autoItemWidth(true).x(1000).y(90).gap(15))
+        .cx(300)
+        .cy(250)
+        .legend(dc.legend().horizontal(true).legendWidth(400).autoItemWidth(true).x(770).y(80).gap(20))
         .ordering(function(d) { return d.key })
         .dimension(state_dim)
         .group(group);
@@ -249,12 +249,12 @@ function player_by_age(ndx) {
     var maxAge = age_dim.top();
 
     dc.rowChart("#player-by-age")
-        .width(1000)
-        .height(600)
+        .width(800)
+        .height(470)
         .margins({ top: 10, right: 50, bottom: 30, left: 100 })
         .dimension(age_dim)
         .group(age_group)
-        .transitionDuration(500)
+        .transitionDuration(1500)
         .x(d3.scale.linear().domain([minAge, maxAge]))
         .title(function(d) {
             return d.value + " players aged " + d.key;
@@ -283,8 +283,8 @@ function player_by_draft_year(ndx) {
 
 
     dc.scatterPlot("#player-by-draft-year")
-        .width(1000)
-        .height(600)
+        .width(800)
+        .height(450)
         .x(d3.scale.linear().domain([1997, 2019]))
         .y(d3.scale.linear().domain([15, 45]))
         .yAxisLabel("Age")

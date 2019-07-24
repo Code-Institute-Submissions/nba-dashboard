@@ -1,6 +1,6 @@
 body {
     font-family: 'Oswald', sans-serif;
-    font-size: 20px;
+    font-size: 16px;
     margin-right: 20px;
     margin-left: 20px;
 }
@@ -18,21 +18,17 @@ body {
     margin-left: 0px;
 }
 
-h2 {
+h3 {
     text-align: center;
     text-decoration: underline;
     padding-top: 50px;
-    padding-bottom: 30px;
+    padding-bottom: 10px;
 }
 
 /* ---------------------------------------------------- LEGENDS AND SLICES -- */
 
 .dc-legend {
-    font-size: 20px;
-}
-
-dc-legend-item {
-    margin-top: 10px;
+    font-size: 16px;
 }
 
 .dc-chart .pie-slice {
@@ -43,7 +39,7 @@ dc-legend-item {
 /* -------------------------------------------------------------VENUES MAP -- */
 
 #map {
-    min-height: 600px;
+    min-height: 400px;
 }
 
 #window-logo {
@@ -54,19 +50,18 @@ dc-legend-item {
 /* ----------------------------------------------- PLAYERS POSTION BAR CHART --*/
 
 #player-position {
-    margin-left: 100px;
+    margin-left: 50px;
 }
+
 
 /* ------------------------------------------ PLAYERS BY COUNTRY DONUT CHART --*/
 
 #player-country {
     margin-top: 40px;
-    margin-left: 175px;
+    margin-left: 150px;
 }
 
-.x-axis-label {
-    
-}
+
 
 /* ---------------------------------------------------- PLAYERS BY AGE CHART --*/
 
@@ -79,6 +74,10 @@ dc-legend-item {
 #age-players-pics {
     padding-top: 10px;
     text-align: center;
+}
+
+.player-pic {
+    max-width: 200px;
 }
 
 
@@ -95,6 +94,5 @@ dc-legend-item {
 
 .chart-team-logo {
     padding-top: 15px;
-    max-width: 260px;
-    max-height: 190px;
+    max-height: 145px;
 }
