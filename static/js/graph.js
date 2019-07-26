@@ -23,7 +23,7 @@ function makeGraphs(error, teamRosters) {
 // Co-ordinates and data used on map
 var locations = [
 
-    //  lat,         long,      team,        year    venue            capacity       
+    //  lat,         long,      team,        year,    venue,            capacity,       logo,       city, state       
     [33.757307, -84.396324, "Atlanta Hawks", 1946, "State Farn Arena", 18118, '<img id="window-logo" src="logos/atlanta_hawks.png">', "Atlanta, Georgia"],
     [42.366230, -71.062146, "Boston Celtics", 1946, "TD Garden", 18624, '<img id="window-logo" src="logos/boston_celtics.png">', "Boston, Massachussetts"],
     [40.682523, -73.976094, "Brooklyn Nets", 1967, "Barclays Center", 17732, '<img id="window-logo" src="logos/brooklyn_nets.png">', "Brooklyn, New York"], // Brooklyn, New York
@@ -60,7 +60,7 @@ var locations = [
 function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 4,
-        center: { lat: 39, lng: -97 }, // Center is a set so all markers show when map is rendered 
+        center: { lat: 39, lng: -97 },       // Center is set on these coordinates so all markers show when map is rendered 
     });
     setMarkers(map, locations);
 }
@@ -69,29 +69,29 @@ function setMarkers(map, locations) {
 
     var marker, i;
 
-    for (i = 0; i < locations.length; i++) { // Loop for all markers settings
+    for (i = 0; i < locations.length; i++) {                // Loop for all markers settings
 
-        var lat = locations[i][0]; // lat & long take co-ordinates for markers form locations var above
+        var lat = locations[i][0];                          // lat & long take co-ordinates for markers form locations var above
         var long = locations[i][1];
-        var team = locations[i][2]; // Rest of vars here take data for content of info window on markers
+        var team = locations[i][2];                         // Rest of vars here take data for content of info window on markers
         var yearFounded = locations[i][3];
         var venueName = locations[i][4];
         var venueCapacity = locations[i][5];
         var teamLogo = locations[i][6];
         var teamCity = locations[i][7];
 
-        latlngset = new google.maps.LatLng(lat, long); // Uses vars above to set co-ordinates for each marker 
+        latlngset = new google.maps.LatLng(lat, long);      // Uses vars above to set co-ordinates for each marker 
 
-        var markerTitle = team + " @ " + teamCity; // Content for marker title shown when hover over
+        var markerTitle = team + " @ " + teamCity;          // Content for marker title shown when hovering over
 
-        var imagePath = "logos/nba_logo.png"; // Path for image replacing original map markers
+        var imagePath = "logos/nba_logo.png";               // Path for custom marker image
 
         var markerImage = new google.maps.MarkerImage(imagePath, // Replaces original markers with nba logo
             new google.maps.Size(32, 80));
 
 
 
-        var marker = new google.maps.Marker({ // Sets markers on map
+        var marker = new google.maps.Marker({                   // Sets markers on map
             map: map,
             title: markerTitle,
             icon: markerImage,
@@ -99,23 +99,21 @@ function setMarkers(map, locations) {
         });
 
 
-        var content = teamLogo + "<br>" + // Creates content for info windows shown when clicking on marker
+        var content = teamLogo + "<br>" +               // Creates content for info windows shown when clicking on marker
             "<strong>Team: </strong>" + team + "<br>" +
             "<strong>Founded in: </strong>" + yearFounded + "<br>" +
             "<strong>Venue: </strong>" + venueName + "<br>" +
             "<strong>Capacity: </strong>" + venueCapacity + " people" + "<br>";
 
-        var infowindow = new google.maps.InfoWindow() // Creates info window
+        var infowindow = new google.maps.InfoWindow()           // Creates info window
 
         google.maps.event.addListener(marker, 'click', (function(marker, content, infowindow) {
-            return function() { // Event listener for when a marker is clicked...
-                infowindow.setContent(content); // ... gets what there is in var content and puts it in an info window...
-                infowindow.open(map, marker); // ... and opens the info window related to that marker
+            return function() {                         // Event listener for when a marker is clicked...
+                infowindow.setContent(content);         // ... gets what there is in var content and puts it in an info window...
+                infowindow.open(map, marker);           // ... and opens the info window related to that marker
             };
         })(marker, content, infowindow));
     }
-
-
 }
 
 
@@ -125,7 +123,7 @@ function player_position(ndx) {
     var position_dim = ndx.dimension(dc.pluck("players__player__primary_position"));
     var position_group = position_dim.group();
 
-    var position_colors = d3.scale.ordinal()
+    var position_colors = d3.scale.ordinal()            // Defines colours for each bar
         .domain(["C", "PF", "SF", "SG", "PG"])
         .range(["#984ea3", "#e6ab02", "#66a61e", "#386cb0", "#e31a1c"]);
 
@@ -140,13 +138,13 @@ function player_position(ndx) {
         .x(d3.scale.ordinal())
         .xUnits(dc.units.ordinal)
         .colors(position_colors)
-        .colorAccessor(function(d) {
+        .colorAccessor(function(d) {                // Colour Accessor needed as using custom colours
             return d.key;
         })
         .xAxisLabel("Position")
         .yAxisLabel("Number of players")
         .elasticY(true)
-        .title(function(d) {
+        .title(function(d) {                        // Shows custom title when hovering over each bar
             return d.value + " players playing as " + d.key;
         })
         .renderHorizontalGridLines(true)
@@ -161,7 +159,7 @@ function player_by_country(ndx) {
     var country_dim = ndx.dimension(dc.pluck("players__player__birth_country"));
     var country_group = country_dim.group();
 
-    var country_colorScale = d3.scale.ordinal()
+    var country_colorScale = d3.scale.ordinal()     // Defines colours for each slice
         .domain(["USA", "Others"])
         .range(["#dc273e", "#00438c"]);
 
@@ -169,8 +167,8 @@ function player_by_country(ndx) {
         .height(300)
         .width(500)
         .radius(150)
-        .slicesCap(1)
-        .innerRadius(90)
+        .slicesCap(1)                               // LImits number of slices to 2
+        .innerRadius(90)                            // Creates gap at center of chart to give "donut effect"
         .cx(200)
         .colors(country_colorScale)
         .transitionDuration(1500)
@@ -190,21 +188,21 @@ function player_other_countries(ndx) {
         .width(1200)
         .radius(150)
         .transitionDuration(1500)
-        .externalLabels(50)
-        .drawPaths(true)
+        .externalLabels(50)                                         // Places  labels outside the chart
+        .drawPaths(true)                                            // Draws lines from slice to label
         .renderTitle(true)
         .title(function(d) {
-            return d.value + " players are from " + d.key;
+            return d.value + " players are from " + d.key;          // Custom title to display when hovering over a slice
         })
-        .minAngleForLabel(0.15)
+        .minAngleForLabel(0.15)                                     // Limites minimum angle of slice to display label for it
         .cx(950)
         .cy(250)
-        .colors(d3.scale.category20b())
-        .legend(dc.legend().horizontal(true).legendWidth(400).autoItemWidth(true).x(120).y(80).gap(20))
+        .colors(d3.scale.category20b())                             // Custom colour scale to differentiate from other pie chart
+        .legend(dc.legend().horizontal(true).legendWidth(400).autoItemWidth(true).x(120).y(80).gap(20)) // Settings for legend
         .dimension(otherCountries_dim)
         .group(otherCountries_group)
-        .data(function(group) {
-            return group.all()
+        .data(function(group) {                                     // Ignores "USA" from data to use for chart as want to display...
+            return group.all()                                      // ... only players born outside the USA
                 .filter(function(d) { return d.key !== "USA"; });
         });
 
@@ -222,17 +220,17 @@ function player_by_state(ndx) {
         .width(1200)
         .radius(150)
         .transitionDuration(1500)
-        .externalLabels(50)
-        .drawPaths(true)
+        .externalLabels(50)                                             // Places labels outside chart
+        .drawPaths(true)                                                // Draws lines from slice to laberl
         .renderTitle(true)
-        .title(function(d) {
+        .title(function(d) {                                            // Custom title to display when hovering over a slice
             return d.value + " players are from " + d.key;
         })
-        .minAngleForLabel(0.1)
+        .minAngleForLabel(0.1)                                          // Limites minimum angle of slice to display label for it
         .cx(300)
         .cy(250)
-        .legend(dc.legend().horizontal(true).legendWidth(400).autoItemWidth(true).x(770).y(80).gap(20))
-        .ordering(function(d) { return d.key })
+        .legend(dc.legend().horizontal(true).legendWidth(400).autoItemWidth(true).x(770).y(80).gap(20)) // Settings for legend
+        .ordering(function(d) { return d.key })                         // Sets order of slices alphabetically
         .dimension(state_dim)
         .group(group);
 }
@@ -245,8 +243,8 @@ function player_by_age(ndx) {
     var age_dim = ndx.dimension(dc.pluck("players__player__age"));
     var age_group = age_dim.group().reduceCount();
 
-    var minAge = age_dim.bottom();
-    var maxAge = age_dim.top();
+    var minAge = age_dim.bottom();                                          // Gets lowest age value
+    var maxAge = age_dim.top();                                             // Gets highest age value
 
     dc.rowChart("#player-by-age")
         .width(800)
@@ -255,12 +253,12 @@ function player_by_age(ndx) {
         .dimension(age_dim)
         .group(age_group)
         .transitionDuration(1500)
-        .x(d3.scale.linear().domain([minAge, maxAge]))
-        .title(function(d) {
+        .x(d3.scale.linear().domain([minAge, maxAge]))                      // Uses min and max values as range for x axis
+        .title(function(d) {                                                // Custom title to display when hovering over a bar
             return d.value + " players aged " + d.key;
         })
-        .labelOffsetX(-30)
-        .data(function(group) {
+        .labelOffsetX(-30)                                                  // Takes labels off the chart for better display
+        .data(function(group) {                                             // ignores data fields with "null" input
             return group.all()
                 .filter(function(d) { return d.key !== null; });
         })
@@ -289,7 +287,7 @@ function player_by_draft_year(ndx) {
         .y(d3.scale.linear().domain([15, 45]))
         .yAxisLabel("Age")
         .xAxisLabel("Year")
-        .title(function(d) {
+        .title(function(d) {                                                // Custom title to display when hovering over each dot
             return d.value + " players aged " + d.key[1] + " and drafted in " + d.key[0];
         })
         .dimension(ageVsDraft_dim)
@@ -297,7 +295,7 @@ function player_by_draft_year(ndx) {
         .brushOn(false)
         .renderHorizontalGridLines(true)
         .renderVerticalGridLines(true)
-        .colorAccessor(function(kv) { return kv.value; })
+        .colorAccessor(function(kv) { return kv.value; })  // Defines how colours are used on chart, grouping dots with exact same data
         .legend(dc.legend())
         .symbolSize(8)
         .clipPadding(10);
