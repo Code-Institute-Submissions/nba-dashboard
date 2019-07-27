@@ -16,6 +16,8 @@ The part that has received the more comments is the map marking where all the di
 
 Another aspect that has received a lot of feedback is how the data is related among the charts, encouraging the user to keep "playing about" clicking on the different fields to compare the data from all of them.
 
+Media queries have been applied to make the application as responsive as possible, but dc charts are not fully responsive and will not display fully on smaller sizes. For this reason, all charts have been made scrollable if their contents size, especially the width, overflows the screen's width.
+
 ## Features
 
 ### Existing features
@@ -66,6 +68,7 @@ As it has been mentioned earlier, this issue has been investigated on several op
 
 Another issue that seems related to the one above, or probably part of the same issue, when filtering the origin of the players by their country of origin, using Australia as an example, on the "Players by state" chart, it shows as if Australian players were also from some US state, which is obviously incorrect. When cross checking the data on the json file, the "players__player__birth_state" field, which indicates were US state the player is originary from, is empty (or "null") for aall the Australian players, so it is unknown where the chart is pulling the incorrect data from. 
 This same issue also happens with some other countries different to Australia, but the same details as above apply for them.
+
 
 ## Deployment
 
