@@ -9,7 +9,7 @@ body {
     text-align: center;
     text-decoration: underline;
     margin-top: 30px;
-    
+
 }
 
 .container {
@@ -95,4 +95,75 @@ h3 {
 .chart-team-logo {
     padding-top: 15px;
     max-height: 145px;
+}
+
+/* ----------------------------------------------------------- MEDIA QUERIES --*/
+
+/* -------------------------------------------------- L Mobile screen -- */
+
+@media (max-width: 501px) {
+
+    #player-position,
+    #player-country {
+        margin-left: 0px;
+        width: 100%;
+        overflow: scroll;
+    }
+
+    #player-other-countries,
+    #player-state,
+    #player-by-age,
+    #player-by-draft-year {
+        width: 100%;
+        overflow: scroll;
+    }
+
+}
+
+/* ---------------------------------------------------- Tablet screen -- */
+
+@media (min-width: 502px) and (max-width: 768px) {
+    #player-position {
+        margin-left: 125px;
+    }
+
+    #player-country {
+        margin-left: 150px;
+    }
+
+    #player-other-countries,
+    #player-state,
+    #player-by-age,
+    #player-by-draft-year {
+        width: 100%;
+        overflow: scroll;
+    }
+
+
+}
+
+/* ---------------------------------------------------- Laptop screen -- */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    #player-position {
+        margin-left: 250px;
+    }
+
+    #player-country {
+        margin-left: 270px;
+    }
+
+    #player-other-countries,
+    #player-state {
+        width: 100%;
+        overflow: scroll;
+    }
+
+    #player-by-age {
+        margin-left: 60px;
+    }
+
+    #player-by-draft-year {
+        margin-left: 70px;
+    }
 }

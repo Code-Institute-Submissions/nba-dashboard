@@ -5,11 +5,15 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.4.0/jasmine.css" integrity="sha256-TTb3c5Z0pxgwRWHzGE700nLTMIOUNgkN2SGXqoflga0=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="static/css/dc.min.css" type="text/css" />
     <link rel="stylesheet" href="static/css/style.css" type="text/css" />
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.4.0/jasmine.js" integrity="sha256-A1UHgrQzApWh893FP9przUyLCugwbvsLPAEUStp1MKA=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.4.0/jasmine-html.js" integrity="sha256-oxQQkzuwLW+9M6Ko6otgsJr9b5m0rR5V0pTBe/ITvNc=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.4.0/boot.js" integrity="sha256-HG8TKl0T65NyELmbUoo0H7/a1e++smYdXXtuuEsyKok=" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="static/js/d3-scale-chromatic.v1.min.js"></script>
@@ -31,13 +35,14 @@
             <h1>NBA SEASON 2018/19</h1>
         </div>
 
-        <div class="container">
+        <div class="container-fluid">
 
             <!-- VENUES MAP -->
             <div class="row">
                 <div class="col">
                     <h3>VENUE LOCATIONS</h3>
-                    <p>The map below indicates the location of the venues for each team of the NBA season 2018/19. Click on each marker to get more information about the venue and the team. Note that the year of foundation refers to when the franchise was first stablished, not necessarily on its current location.</p>
+                    <p>The map below indicates the location of the venues for each team of the NBA season 2018/19. Click on each marker to get more information about the venue and the team. Note that the year of foundation refers to when the franchise was
+                        first stablished, not necessarily on its current location.</p>
                     <div id="map"></div>
                 </div>
             </div>
@@ -68,7 +73,8 @@
             <div class="row">
                 <div class="col">
                     <h3>PLAYERS FROM THE REST OF THE WORLD</h3>
-                    <p>Despite still being a clear minority when compared to players form the USA, there are players from all continents (except Antarctica), and their number have been increasing with the years with more and more being traded in or drafted every year.</p>
+                    <p>Despite still being a clear minority when compared to players form the USA, there are players from all continents (except Antarctica), and their number have been increasing with the years with more and more being traded in or drafted
+                        every year.</p>
                     <p>Europe is still the dominant market for non-American players, but Canada and Australia are the individual countries with more players in the 2018/19 season.</p>
                     <div id="player-other-countries"></div>
                 </div>
